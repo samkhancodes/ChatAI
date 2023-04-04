@@ -20,7 +20,7 @@
   margin-bottom: 15px;
 }
 .text {
-  background: rgb(242, 240, 240);
+  background: rgb(255, 255, 255);
   border: none;
   height: 250px;
   width: 100;
@@ -37,7 +37,7 @@
   height: max-content;
   max-width: 400px;
   font-size: 1rem;
-  background-color: rgb(206, 205, 205);
+  background-color: rgb(181, 181, 181);
   padding: 10px 4px;
   border-radius: 15px;
 }
