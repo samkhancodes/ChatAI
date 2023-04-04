@@ -182,10 +182,15 @@ export default function Home() {
     <>
       {user ? (
         <div className={"UIdesign"}>
+          <div className="logoContainer">
+            <img
+              src="/logo.png"
+              height={"40px"}
+              width={"40px"}
+              style={{ marginTop: "10px", borderRadius: "50%" }}
+            />
+          </div>
           <div className="voice_button_container">
-            {/* <div className="imageContainer">
-              <img className="imgUser" src={photoURL} />
-            </div> */}
             <button onClick={handleLogout} className="logOutButton">
               LogOut
             </button>
