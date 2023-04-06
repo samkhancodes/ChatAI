@@ -228,7 +228,7 @@ export default function Home() {
           </div>
           <div className="listening-buttons">
             <button
-              className={`glow-on-hover`}
+              className={`button glow-on-hover`}
               onClick={startListening}
               disabled={isListening}
             >
