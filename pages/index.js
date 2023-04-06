@@ -228,7 +228,9 @@ export default function Home() {
           </div>
           <div className="listening-buttons">
             <button
-              className={`button glow-on-hover`}
+              className={`button ${
+                isListening === true ? "listening" : "glow-on-hover "
+              }`}
               onClick={startListening}
               disabled={isListening}
             >
