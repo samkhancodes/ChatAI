@@ -166,6 +166,9 @@
   .embed-submit-field input {
     width: 300px;
   }
+  .loginPage h1 {
+    font-size: 1.3rem;
+  }
 }
 .stop_button {
   height: 24px;
