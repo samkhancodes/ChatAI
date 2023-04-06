@@ -108,27 +108,19 @@ export default function Home() {
       setIsLoading(false);
     } catch (error) {
       console.error(error, "chatgpt response error");
+      setIsLoading(false);
     }
   }, [transcript, setDisplayText]);
+
   const startListening = useCallback(() => {
     if (!isListening && recognition) {
       setIsListening(true);
       recognition.start();
     }
-  }, [recognition, isListening]);
-
-  const stopListening = useCallback(() => {
-    if (isListening && recognition) {
+    recognition.onend = () => {
       setIsListening(false);
-      const stopPromise = new Promise((resolve) => {
-        recognition.onend = resolve;
-        recognition.stop();
-      });
-      stopPromise.then(() => {
-        getResponsefromChatGpt();
-      });
-    }
-  }, [recognition, isListening, getResponsefromChatGpt]);
+    };
+  }, [recognition, isListening]);
 
   const speakText = useCallback(() => {
     if (displayText && !isSpeaking) {
@@ -144,7 +136,6 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const recognition = new window.webkitSpeechRecognition();
-      recognition.continuous = true;
       recognition.interimResults = true;
       setRecognition(recognition);
       // setRecognition(new window.webkitSpeechRecognition());
@@ -163,14 +154,15 @@ export default function Home() {
         setError(true);
         setTimeout(() => {
           setError(false);
-        }, 3000);
+        }, 2000);
       };
 
       recognition.onend = () => {
         setIsListening(false);
+        getResponsefromChatGpt();
       };
     }
-  }, [recognition]);
+  }, [recognition, getResponsefromChatGpt, setTranscript]);
   const responseBoxRef = useRef(null);
   useEffect(() => {
     if (responseBoxRef.current) {
@@ -189,25 +181,21 @@ export default function Home() {
               width={"40px"}
               style={{ marginTop: "10px", borderRadius: "50%" }}
             />
-          </div>
-          <div className="voice_button_container">
-            <button onClick={handleLogout} className="logOutButton">
-              LogOut
-            </button>
+            <div className="voice_button_container">
+              <button onClick={handleLogout} className="logOutButton">
+                LogOut
+              </button>
+            </div>
           </div>
 
           <div className="responseBox" ref={responseBoxRef}>
             {userHistory &&
               userHistory.map((curElm) => {
                 return (
-                  <div key={curElm._id}>
-                    <p className="trans_para">
-                      Question : {curElm.transcript}{" "}
-                    </p>
+                  <div key={curElm._id} style={{ padding: "5px" }}>
+                    <p className="trans_para">{curElm.transcript} </p>
                     <div className="alignment">
-                      <p className="display_para">
-                        Answer : {curElm.displayText}
-                      </p>
+                      <p className="display_para">BOT : {curElm.displayText}</p>
                     </div>
                   </div>
                 );
@@ -240,21 +228,12 @@ export default function Home() {
           </div>
           <div className="listening-buttons">
             <button
-              className={"button"}
+              className={`glow-on-hover`}
               onClick={startListening}
               disabled={isListening}
             >
               {isListening !== true ? "Click to voice search" : "...listening"}
             </button>
-            {isListening && (
-              <button
-                className={"stop_button"}
-                onClick={stopListening}
-                disabled={!isListening}
-              >
-                <div className="stop_button_span"></div>
-              </button>
-            )}
           </div>
         </div>
       ) : (
