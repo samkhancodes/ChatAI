@@ -106,7 +106,9 @@ export default function Home() {
       const response = await axios.post(API_URL, { sentence: transcript });
       await setDisplayText(response.data.result);
       setIsLoading(false);
+      console.log(process.env.API_URL , "api Url");
     } catch (error) {
+      console.log(process.env.API_URL, "api Url");
       console.error(error, "chatgpt response error");
       setIsLoading(false);
     }
